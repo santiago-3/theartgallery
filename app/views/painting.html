@@ -1,0 +1,76 @@
+<div id="painting">
+    <div>
+        <div class="screen">
+			<div>Cargando</div>
+			<div class="loader"></div>
+        </div>
+        <header>
+            <div>
+                <div>
+                    <a href="/list.php">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M6 12H18M6 12L11 7M6 12L11 17" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+                    </a>
+                </div>
+                <div class="title">
+                    New painting
+                </div>
+            </div>
+            <div class="saved-paintings">
+            </div>
+            <!--
+            <div class="saved-painting-bg">
+                <a href="./painting.php?id=14">
+                    <div class="saved-painting">
+                        <div class="content">
+                            <div class="message">Pintura guardada</div>
+                            <div class="name">Las meninas</div>
+                            <div class="author">De Diego velázque io soi guapa</div>
+                        </div>
+                    </div>
+                </a>
+            <div>
+            -->
+        </header>
+        <form class="form">
+            <div>
+                <div class="image-frame">
+                    <div class="image-area">
+                        <div>Drop image here</div>
+                        <label for="file">Select file</label>
+                        <input type="file" id="file" required>
+                    </div>
+                </div>
+                <div class="inputs">
+                    <div class="field">
+                        <div class="label">Author</div>
+                        <div class="data-list-box">
+                            <input id="author" type="text">
+                            <div id="authors-list" class="data-list">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="label">Style</div>
+                        <div class="data-list-box">
+                            <input id="style" type="text">
+                            <div id="styles-list" class="data-list">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="label">Year</div>
+                        <input type="number" id="year" name="year" required min="1000" max="2024">
+                    </div>
+                    <div class="field">
+                        <div class="label">Name</div>
+                        <input type="text" id="name" name="name" required min="1000" max="2024">
+                    </div>
+                </div>
+            </div>
+            <div>
+                <textarea spellcheck="false" id="description" name="description" required></textarea>
+            </div>
+            <button class="button" id="save">Save</button>
+        </form>
+    </div>
+</div>

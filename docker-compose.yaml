@@ -1,0 +1,21 @@
+services:
+  theartgallery:
+    container_name: art-gallery
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/var/www/html/
+    ports:
+      - 8088:80
+
+  dbp:
+    container_name: pg-art-gallery
+    image: postgres:9.6
+    restart: always
+    environment:
+      POSTGRES_USER: santiago
+      POSTGRES_PASSWORD: ${DB_PASS}
+      POSTGRES_DB: theartgallery
+    ports:
+      - 5434:5432

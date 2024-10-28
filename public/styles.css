@@ -1,0 +1,467 @@
+body {
+    margin: 0px;
+}
+a {
+    text-decoration: none;
+    color: inherit;
+}
+a.visited {
+    color: inherit;
+}
+input, textarea {
+    outline: none;
+}
+button {
+    cursor: pointer;
+}
+svg {
+    width: 40px;
+}
+.anchor-like-button {
+    cursor: pointer;
+}
+.anchor-like-button:hover {
+    text-decoration: underline;
+}
+.button {
+    border: none;
+    background-color: #442200;
+    color: #ffffff;
+    padding: 12px;
+    border-radius: 6px;
+}
+#list {
+    margin: 20px;
+    display: flex;
+    gap: 20px;
+}
+#list .section {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+#list .section.authors {
+    width: 30%;
+}
+#list .section.paintings {
+    flex-grow: 1;
+}
+#list .section .header {
+    padding: 12px;
+}
+#list .items {
+    border: 2px dashed #d44;
+    border-radius: 3px;
+    max-height: 700px;
+    overflow-y: scroll;
+}
+#list .items .item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+#list .items .item {
+    padding: 20px;
+    background-color: #fff8f8;
+    font-size: 16px;
+    color: #433;
+    border-bottom: 1px dashed #c88;
+    cursor: pointer;
+}
+#list .items .item:hover {
+    background-color: #ffefef;
+}
+#list .items .item:last-child {
+    border: none;
+}
+#list .paintings .painting .year {
+    font-weight: bold;
+}
+#list .paintings .painting .author {
+    width: 200px;
+}
+#list .paintings .painting .name {
+    flex-grow: 1;
+}
+#list button.delete {
+    padding: 0px;
+    width: 20px;
+    height: 20px;
+    border: none;
+    background: url('/public/icons/cross.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position-y: center;
+    background-color: rgba(255,255,255,0);
+    opacity: 0.7;
+}
+#list button.delete:hover {
+    opacity: 1;
+}
+#list .paintings .painting {
+    padding-left: 120px;
+    background-repeat: no-repeat;
+    background-position-y: center;
+}
+#list .section .header {
+    display: flex; 
+    align-items: center;
+    gap: 10px;
+}
+#list .section .header .search-area {
+    padding: 0px 8px 0px 48px;
+    border: 1px solid #dddddd;
+    border-radius: 8px;
+    flex-grow: 1;
+    max-width: 500px;
+    background-color: rgba(255,255,255,0.4);
+    background-image: url('/public/icons/search.png');
+    background-repeat: no-repeat;
+    background-size: 32px;
+    background-position-y: center;
+    background-position-x: 8px;
+    background-blend-mode: overlay;
+}
+#list .section .header .search-area input{
+    border: none;
+    width: 100%;
+    height: 40px;
+    outline: none;
+    font-size: 20px;
+}
+
+#painting {
+    padding: 40px;
+}
+#painting > div:first-child {
+    max-width: 840px;
+}
+#painting .screen {
+    position: absolute;
+    width: 840px;
+    height: 690px;
+    background-color: rgba(255,255,255,0.8);
+    color: #444;
+    display: flex;
+	flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    z-index: 20;
+}
+#painting header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+    gap: 8px;
+}
+#painting header > div:first-child {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding-bottom: 15px;
+}
+#painting header .title {
+    min-width: 150px;
+}
+#painting header .saved-paintings {
+    display: flex;
+    gap: 8px;
+    overflow-x: scroll;
+    padding-bottom: 15px;
+}
+#painting header .saved-painting-bg {
+    background: linear-gradient(to left, #80a080, #c0e0c0 80%, #80a080);
+    border-radius: 4px;
+}
+#painting header .saved-painting {
+    border-radius: 4px;
+    background-size: 74px;
+    background-origin: content-box;
+    background-clip: content-box;
+    background-position-y: center;
+    background-repeat: no-repeat;
+    box-sizing: border-box;
+    border: 1px solid #707070;
+    padding: 5px;
+    width: 240px;
+    cursor: pointer;
+
+}
+#painting header .saved-painting .content {
+    padding-left: 80px;
+}
+#painting header .saved-painting .message, #painting header .saved-painting .author {
+    font-size: 12px;
+}
+#painting header .saved-painting .name, #painting header .saved-painting .author {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: "";
+}
+#painting header .saved-painting .author {
+    font-weight: bold;
+}
+
+#painting .title {
+    font-size: 24px;
+}
+#painting .form {
+    padding: 24px;
+    border: 2px dashed #d44;
+    border-radius: 3px;
+    background-color: #fff8f8;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+#painting .form > div {
+    display: flex;
+    gap: 20px;
+}
+#painting .form .image-frame {
+    background-color: #442200;
+    padding: 12px;
+    padding-bottom: 22px;
+    position: relative;
+}
+#painting .form .image-area {
+    width: 320px;
+    height: 240px;
+    font-size: 20px;
+    padding-top: 64px;
+    box-sizing: border-box;
+    background-color: #dddddd;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    border: 2px dashed #444;
+}
+#painting .form .new-image-area {
+    width: 320px;
+    height: 240px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: radial-gradient(#705830 30%, #442200 70%);
+}
+#painting .form .image {
+    max-width: 320px;
+    max-height: 240px;
+}
+#painting .form .image-area label {
+    color: #444;
+    background-color: #bfbfbf;
+    padding: 8px 24px 4px 24px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+#painting .image-frame #reset-file {
+    display: none;
+    position: absolute;
+    right: 16px;
+    bottom: 0px;
+    color: #f0f0f0;
+}
+#painting .image-frame:hover #reset-file {
+    display: block;
+}
+#painting .form .inputs {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 10px;
+}
+#painting .form .inputs > div {
+    display: flex;
+    align-items: center;
+}
+#painting .form .inputs .label {
+    width: 70px;
+    color: #444;
+    font-size: 18px;
+}
+#painting .form .button {
+    width: 80px;
+}
+#painting select, #painting input, #painting textarea {
+    height: 32px;
+    width: 240px;
+    border-radius: 8px;
+    background-color: #ffffff;
+    border: 1px solid #dddddd;
+    font-size: 16px;
+    padding: 10px 15px;
+    box-sizing: border-box;
+    color: #444;
+}
+#painting input[type=file] {
+    opacity: 0;
+    height: 0px;
+    padding: 0px;
+}
+#painting input[type=number] {
+    -moz-appearance: textfield;
+}
+#painting textarea {
+    width: 100%;
+    height: 240px;
+}
+
+.data-list-box {
+    position: relative;
+}
+
+.data-list {
+    display: none;
+    background-color: #ffffff;
+    width: 100%;
+    max-height: 400px;
+    overflow-y:  scroll;
+    border-radius: 8px;
+    border: 1px solid #d0d0d0;
+    position: absolute;
+    z-index: 10;
+}
+.data-list > div {
+    padding: 5px 10px;
+    cursor: pointer;
+}
+.data-list > div.highlighted {
+    background-color: #ffefef;
+}
+
+/*
+ * * * * *  Loader
+ */ 
+
+.loader {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: #000;
+    box-shadow: 32px 0 #000, -32px 0 #000;
+    animation: flash 0.5s ease-out infinite alternate;
+}
+
+@keyframes flash {
+    0% {
+        background-color: #0002;
+        box-shadow: 32px 0 #0002, -32px 0 #000;
+    }
+    50% {
+        background-color: #000;
+        box-shadow: 32px 0 #0002, -32px 0 #0002;
+    }
+    100% {
+        background-color: #0002;
+        box-shadow: 32px 0 #000, -32px 0 #0002;
+    }
+}
+
+/*
+ * * * * *  End Loader
+ */ 
+
+#gallery {
+    background-color: #444;
+    height: 100vh;
+    text-align: center;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#gallery > .empty-state {
+    display: block;
+}
+#gallery > .empty-state {
+    width: 210px;
+    font-size: 58px;
+    line-height: 80%;
+    border-radius: 4px;
+    background-color: #606068;
+    color: #f0f0f0;
+    padding: 15px 20px 0px 10px;
+    text-align: left;
+}
+#gallery > .empty-state > div:nth-child(1) { padding-left: 50px; }
+#gallery > .empty-state > div:nth-child(2) { padding-left: 15px; }
+#gallery > .empty-state > div:nth-child(3) { padding-left: 110px; }
+#gallery > .empty-state > div:nth-child(4) { padding-left: 40px; }
+#gallery > .painting {
+    display: none;
+}
+#gallery > .painting img {
+    cursor: pointer;
+    height: 100vh;
+}
+
+#gallery .side-button {
+    position: fixed;
+    top: 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 80px;
+    background-color: rgba(0,0,0,0.2);
+    cursor: pointer;
+    opacity: 0;
+}
+#gallery .side-button:hover {
+    opacity: 1;
+}
+#gallery .side-button img{
+    width: 32px;
+}
+#gallery .side-button.left {
+    left: 0px;
+}
+#gallery .side-button.right {
+    right: 0px;
+}
+
+#gallery > .info {
+    display: none;
+    flex-direction: column;
+    color: #e0e0e0;
+    height: 75vh;
+    width: 75vw;
+    font-size: 18px;
+    background-color: #262320;
+    padding: 20px;
+}
+#gallery > .info > div:first-child {
+    display: flex;
+}
+#gallery > .info .image-frame {
+    height: 240px;
+}
+#gallery > .info .image-frame img{
+    height: 100%;
+    cursor: pointer;
+}
+#gallery > .info .data {
+    padding: 20px;
+    text-align: left;
+}
+#gallery > .info .author {
+    font-weight: bold;
+}
+#gallery > .info .name {
+    font-size: 32px;
+}
+#gallery > .info .labeled {
+    display: flex;
+}
+#gallery > .info .labeled > div:first-child {
+    width: 60px;
+    font-weight: bold;
+}
+#gallery > .info .description {
+    text-align: left;
+    padding: 20px 0px;
+}

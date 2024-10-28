@@ -1,0 +1,3 @@
+<div>
+    Art gallery
+</div>

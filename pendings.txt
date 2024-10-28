@@ -1,0 +1,5 @@
+-Botón volver atrás..............................................Ok
+-que salte la validación js cuando falta algún dato..............
+-El botón de guardar.............................................Ok
+-que muestre una confirmación cuando se guarda una pintura 
+-Editar pintura
