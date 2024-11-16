@@ -35,7 +35,7 @@ function initAnywhereClick() {
 }
 
 function getParams(url) {
-    if (url.split('?').length < 1) {
+    if (url.split('?').length <= 1) {
         return {}
     }
     try {
@@ -46,7 +46,7 @@ function getParams(url) {
             }, {})
     }
     catch(error) {
-        console.log('Could not parms url params: ', error)
+        console.log('Could not parse url params: ', error)
         return {}
     }
 }
@@ -69,7 +69,6 @@ async function loadSelects() {
     if (result.success) {
         authors = result.authors
         populateAuthorsSelect(result.authors)
-        console.log('authors select populated')
     }
 
     response = await fetch('/app/controllers/loadStyles.php')
@@ -80,7 +79,6 @@ async function loadSelects() {
     if (result.success) {
         styles = result.styles
         populateStylesSelect()
-        console.log('styles select populated')
     }
 }
 

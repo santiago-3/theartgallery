@@ -433,6 +433,7 @@ svg {
     font-size: 18px;
     background-color: #262320;
     padding: 20px;
+    overflow: scroll;
 }
 #gallery > .info > div:first-child {
     display: flex;

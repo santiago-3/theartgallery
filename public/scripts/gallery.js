@@ -78,7 +78,7 @@ function refreshPainting() {
     }))
 
     info.appendChild(newElem('div', {
-        classes: ['data'],
+        classes: ['description'],
         content: gallery[index].description.replace(/(?:\r\n|\r|\n)/g, '<br>')
     }))
 

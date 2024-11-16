@@ -1,5 +1,33 @@
 -Botón volver atrás..............................................Ok
--que salte la validación js cuando falta algún dato..............
+-que salte la validación js cuando falta algún dato..............Ok
 -El botón de guardar.............................................Ok
--que muestre una confirmación cuando se guarda una pintura 
--Editar pintura
+-que muestre una confirmación cuando se guarda una pintura.......Ok
+-Editar pintura..................................................Ok
+
+  1 | Rafael                 | 5
+  2 | Leonardo Da Vinci      | 3
+  3 | Diego Velázquez        | 8
+  4 | Rembrandt              | 11
+  5 | Francisco de Goya      | 7
+  6 | J. M. W. Turner        | 11
+  7 | Edouard Manet          | 11
+  8 | Claude Monet           | 10
+  9 | Pierre-Auguste Renoir  | 10
+ 10 | Vincent Van Gogh       | 12
+ 11 | Paul Cézanne           | 8
+ 12 | Picasso                | 8
+ 13 | Vasili Kandinsky       | 10
+ 14 | Piet Mondrian          | 8
+ 15 | Morris Louis           | 4
+ 16 | Salvador Dalí          | 3
+ 17 | René Magritte          | 3
+ 18 | Edvard Munch           | 7
+ 19 | Edward Hopper          | 6
+ 20 | William Holbrook Beard | 5
+ 21 | Mark Ryden             | 6
+
+ ----------------------------------
+ No subieron por ser muy pesadas:
+ La Gioconda
+ La guardia nocturna
+ Autorretrato de Rembrandt

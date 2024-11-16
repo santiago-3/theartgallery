@@ -103,7 +103,8 @@ class NextPaintingController {
 
         $queryClauses[] = 'left join ' . implode(' left join ', $joins);
         $queryClauses[] = 'where p.id in (' . implode(',', $paramsPositions) . ')';
-        $queryClauses[] = 'limit 10';
+        $queryClauses[] = 'order by random()';
+        $queryClauses[] = 'limit 20';
 
         $query = implode(' ', $queryClauses);
         // echo $query; exit;

@@ -79,21 +79,28 @@ else {
 
     $fileNameParts = explode('.',$_FILES['file']['name']);
     $fileExtension = $fileNameParts[count($fileNameParts)-1];
-    $fileName  = $paintingValues['author_id'] . "-" . str_replace(' ','-',trim($paintingValues['name'])) . '.' . $fileExtension;
+    $fileName      = $paintingValues['author_id'] . "-" . str_replace(' ','-',trim($paintingValues['name'])) . '.' . $fileExtension;
 
-    $imageData = [];
-    if (! move_uploaded_file($_FILES['file']['tmp_name'], $imagesUploadDir . $fileName)) {
-        $success     = false;
+    $imageResizer = new ImageResizer($_FILES['file']['tmp_name']);
+    $imageData    = getimagesize($_FILES['file']['tmp_name']);
+    $imageWidth   = $imageData[0];
+
+    ini_set("memory_limit", "300M");
+    $imageResizer->resizeImage($imagesThumbnailsDir . $fileName, THUMBNAIL_WIDTH);
+    if ($imageWidth > MAX_IMAGE_WIDTH) {
+        $imageResizer->resizeImage($imagesUploadDir . $fileName, MAX_IMAGE_WIDTH);
     }
-    else {
-        $imageData   = getimagesize($imagesUploadDir . $fileName);
-        $imageData = [
-            'name'   => $fileName,
-            'width'  => $imageData[0],
-            'height' => $imageData[1],
-            'type'   => $imageData['mime'],
-        ];
+    else if (! move_uploaded_file($_FILES['file']['tmp_name'], $imagesUploadDir . $fileName)) {
+        $success = false;
     }
+
+    $imageData   = getimagesize($imagesUploadDir . $fileName);
+    $imageData = [
+        'name'   => $fileName,
+        'width'  => $imageData[0],
+        'height' => $imageData[1],
+        'type'   => $imageData['mime'],
+    ];
     
     if ($success) {
         $insertImageResult = pg_query_params(

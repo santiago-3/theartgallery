@@ -89,7 +89,7 @@ function loadPaintingsList(paintings) {
         const bgHeigth = (painting.file.height / painting.file.width) * bgWidth
         
         const backgroundStyleProperties = [
-            `background-image: url('/public/images/${painting.file.name}')`,
+            `background-image: url('/public/thumbnails/${painting.file.name}')`,
             `background-size: ${bgWidth}px ${bgHeigth}px;`
         ]
 

@@ -3,8 +3,10 @@ FROM php:8.3-apache
 RUN apt-get update && apt-get upgrade -y
 # Install CodeIgniter 4 dependencies (ext-intl, ext-gd, ext-zip)
 # Enable required PHP extensions
-RUN apt-get install -y libicu-dev libpng-dev libzip-dev
+RUN apt-get install -y libicu-dev libpng-dev libzip-dev libjpeg62-turbo-dev libfreetype6-dev
 RUN docker-php-ext-install intl gd zip
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg
+RUN docker-php-ext-install -j$(nproc) gd
 # Add required postgresql PHP extensions
 RUN apt-get install -y libpq-dev
 RUN docker-php-ext-install pdo pdo_pgsql pgsql
