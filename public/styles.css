@@ -466,3 +466,34 @@ svg {
     text-align: left;
     padding: 20px 0px;
 }
+#gallery > .info .description p {
+    margin: 0px;
+    padding: 0px 20px;
+    font-style: italic;
+}
+
+#paintings-index {
+    display: none;
+    background-color: #444;
+    color: #f0f0f0;
+    padding: 20px;
+}
+#paintings-index .painting-data {
+    display: flex;
+    gap: 10px;
+    font-size: 18px;
+    cursor: pointer;
+}
+#paintings-index .pos {
+    width: 20px;
+    text-align: center;
+}
+#paintings-index .author {
+    font-weight: bold;
+}
+
+#about {
+    display: none;
+    background-color: #444;
+    color: #c0c0c0;
+}

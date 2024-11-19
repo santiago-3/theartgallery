@@ -47,7 +47,7 @@ if (empty($invalidData)) {
 
         if($row = pg_fetch_row($selectFileNameResult)) {
             $fileName = $row[0];
-            unlink($imagesUploadDir . $fileName);
+            unlink(IMAGES_UPLOAD_DIR . $fileName);
         }
 
         $success = true;

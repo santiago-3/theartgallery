@@ -2,36 +2,23 @@
 
 include_once('../globals.php');
 
-class NextPaintingController {
+class NextPaintingsController {
 
     private $dbconn = null;
+    private $arrangedPaintingsIds = [];
+    private $nextPaintingsIds = [];
 
     public function __construct($dbconn) {
         $this->dbconn = $dbconn;
-    }
 
-    public function index() {
+        $number = isset($_POST['number']) ? $_POST['number'] : 0;
 
-        $previousPaintings = [];
-        $painting          = null;
-        $filters           = [];
-
-        $ids = isset($_POST['ids']) ?? $_POST['ids'];
-
-        $allPaintingIds = $this->getAllPaintingIds($filters);
-
-        session_start();
-
-        if (isset($_SESSION['previousPaintings'])) {
-            $previousPaintings = $_SESSION['previousPaintings'];
+        if (! isset($_SESSION['arrangedPaintings'])) {
+            $_SESSION['arrangedPaintings'] = $this->getAllPaintingIds([]);
         }
 
-        $nextPaintingsIds = array_diff($allPaintingIds, $previousPaintings);
-
-        $paintings = $this->getPaintings($nextPaintingsIds);
-
-        return $paintings;
-
+        $this->arrangedPaintingsIds = $_SESSION['arrangedPaintings'];
+        $this->nextPaintingsIds = array_slice($this->arrangedPaintingsIds, $number, TOTAL_PAINTINGS_REQUESTED);
     }
 
     private function getAllPaintingIds($filters) {
@@ -42,6 +29,7 @@ class NextPaintingController {
 
         $queryClauses[] = 'select id';
         $queryClauses[] = 'from paintings';
+        $queryClauses[] = 'order by random()';
 
         if (isset($filters['author'])) {
             $authorId  = $filters['author'];
@@ -69,14 +57,13 @@ class NextPaintingController {
         return $ids;
     }
 
-    private function getPaintings($ids) {
+    public function getPaintings() {
 
-        $paintings = [];
-        $params    = $ids;
+        $paintings          = [];
+        $unorderedPaintings = [];
+        $paramsPositions    = [];
 
-        $paramsPositions = [];
-
-        foreach($ids as $index => $id) {
+        foreach($this->nextPaintingsIds as $index => $id) {
             $paramsPositions[] = '$' . ($index+1);
         }
 
@@ -103,15 +90,13 @@ class NextPaintingController {
 
         $queryClauses[] = 'left join ' . implode(' left join ', $joins);
         $queryClauses[] = 'where p.id in (' . implode(',', $paramsPositions) . ')';
-        $queryClauses[] = 'order by random()';
-        $queryClauses[] = 'limit 20';
 
         $query = implode(' ', $queryClauses);
         // echo $query; exit;
-        $paintingsQueryResult = pg_query_params($this->dbconn, $query, $params);
+        $paintingsQueryResult = pg_query_params($this->dbconn, $query, $this->nextPaintingsIds);
 
         while($row = pg_fetch_row($paintingsQueryResult)) {
-            $paintings[] = (object) [
+            $unorderedPaintings[$row[0]] = (object) [
                 "id"          => $row[0],
                 "author"      => $row[1],
                 "name"        => $row[3],
@@ -126,18 +111,64 @@ class NextPaintingController {
             ];
         }
 
+        foreach($this->nextPaintingsIds as $id) {
+            $paintings[] = $unorderedPaintings[$id];
+        }
+
         return $paintings;
 
     }
 
+    public function getPaintingsIndex() {
+
+        $paintings          = [];
+        $unorderedPaintings = [];
+        $paramsPositions    = [];
+
+        foreach($this->arrangedPaintingsIds as $index => $id) {
+            $paramsPositions[] = '$' . ($index+1);
+        }
+
+        $fields = [
+            'p.id',
+            'a.name as author',
+            'p.name',
+            'p.year',
+        ];
+
+        $queryClauses[] = 'select ' . implode(', ', $fields);
+        $queryClauses[] = 'from paintings p';
+        $queryClauses[] = 'left join authors a on a.id = p.author_id';
+        $queryClauses[] = 'where p.id in (' . implode(',', $paramsPositions) . ')';
+
+        $query = implode(' ', $queryClauses);
+        $paintingsQueryResult = pg_query_params($this->dbconn, $query, $this->arrangedPaintingsIds);
+
+        while($row = pg_fetch_row($paintingsQueryResult)) {
+            $unorderedPaintings[$row[0]] = (object) [
+                "id"          => $row[0],
+                "author"      => $row[1],
+                "name"        => $row[2],
+                "year"        => $row[3],
+            ];
+        }
+
+        foreach($this->arrangedPaintingsIds as $id) {
+            $paintings[] = $unorderedPaintings[$id];
+        }
+
+        return $paintings;
+    }
+
 }
 
-$nextPaintingController = new NextPaintingController($dbconn);
-$nextPaintings = $nextPaintingController->index();
+$nextPaintingController = new NextPaintingsController($dbconn);
+$nextPaintings = $nextPaintingController->getPaintings();
 if (is_array($nextPaintings) && count($nextPaintings) > 0) {
     echo json_encode([
         'success' => true,
-        'paintings' => $nextPaintings
+        'paintings' => $nextPaintings,
+        'paintingsIndex' => $nextPaintingController->getPaintingsIndex(),
     ]);
 }
 else {

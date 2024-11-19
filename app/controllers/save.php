@@ -86,15 +86,15 @@ else {
     $imageWidth   = $imageData[0];
 
     ini_set("memory_limit", "300M");
-    $imageResizer->resizeImage($imagesThumbnailsDir . $fileName, THUMBNAIL_WIDTH);
+    $imageResizer->resizeImage(IMAGES_THUMBNAILS_DIR . $fileName, THUMBNAIL_WIDTH);
     if ($imageWidth > MAX_IMAGE_WIDTH) {
-        $imageResizer->resizeImage($imagesUploadDir . $fileName, MAX_IMAGE_WIDTH);
+        $imageResizer->resizeImage(IMAGES_UPLOAD_DIR . $fileName, MAX_IMAGE_WIDTH);
     }
-    else if (! move_uploaded_file($_FILES['file']['tmp_name'], $imagesUploadDir . $fileName)) {
+    else if (! move_uploaded_file($_FILES['file']['tmp_name'], IMAGES_UPLOAD_DIR . $fileName)) {
         $success = false;
     }
 
-    $imageData   = getimagesize($imagesUploadDir . $fileName);
+    $imageData = getimagesize(IMAGES_UPLOAD_DIR . $fileName);
     $imageData = [
         'name'   => $fileName,
         'width'  => $imageData[0],

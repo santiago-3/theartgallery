@@ -29,9 +29,12 @@ function getAuthorById(Array $authors, $id): object {
     throw new Exception('function getAuthorById requires parameter id to be present as the id property in some of the elements of the array authors');
 }
 
-$currentYear         = date('Y');
-$imagesUploadDir     = $_SERVER['DOCUMENT_ROOT'] . "/public/images/";
-$imagesThumbnailsDir = $_SERVER['DOCUMENT_ROOT'] . "/public/thumbnails/";
+const THUMBNAIL_WIDTH           = 100;
+const MAX_IMAGE_WIDTH           = 2362;
+const MAX_PAINTINGS_ARRANGED    = 250;
+const TOTAL_PAINTINGS_REQUESTED = 25;
 
-const THUMBNAIL_WIDTH = 100;
-const MAX_IMAGE_WIDTH = 2362;
+define('IMAGES_THUMBNAILS_DIR', $_SERVER['DOCUMENT_ROOT'] . "/public/thumbnails/");
+define('IMAGES_UPLOAD_DIR', $_SERVER['DOCUMENT_ROOT'] . "/public/images/");
+
+session_start();

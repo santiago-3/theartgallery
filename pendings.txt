@@ -13,8 +13,8 @@
   7 | Edouard Manet          | 11
   8 | Claude Monet           | 10
   9 | Pierre-Auguste Renoir  | 10
- 10 | Vincent Van Gogh       | 12
- 11 | Paul Cézanne           | 8
+ 10 | Paul Cézanne           | 8
+ 11 | Vincent Van Gogh       | 12
  12 | Picasso                | 8
  13 | Vasili Kandinsky       | 10
  14 | Piet Mondrian          | 8
@@ -27,7 +27,9 @@
  21 | Mark Ryden             | 6
 
  ----------------------------------
- No subieron por ser muy pesadas:
- La Gioconda
- La guardia nocturna
- Autorretrato de Rembrandt
+-No subieron por ser muy pesadas:
+-La Gioconda
+-La guardia nocturna
+-Autorretrato de Rembrandt
+-En La terraza (Renoir)
+-La noche estrellada
