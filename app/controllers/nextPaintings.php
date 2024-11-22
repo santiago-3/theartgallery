@@ -11,7 +11,7 @@ class NextPaintingsController {
     public function __construct($dbconn) {
         $this->dbconn = $dbconn;
 
-        $number = isset($_POST['number']) ? $_POST['number'] : 0;
+        $number = isset($_GET['number']) ? $_GET['number'] : 0;
 
         if (! isset($_SESSION['arrangedPaintings'])) {
             $_SESSION['arrangedPaintings'] = $this->getAllPaintingIds([]);

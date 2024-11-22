@@ -15,9 +15,9 @@
   9 | Pierre-Auguste Renoir  | 10
  10 | Paul Cézanne           | 8
  11 | Vincent Van Gogh       | 12
- 12 | Picasso                | 8
- 13 | Vasili Kandinsky       | 10
- 14 | Piet Mondrian          | 8
+ 12 | Vasili Kandinsky       | 10
+ 13 | Piet Mondrian          | 8
+ 14 | Picasso                | 8
  15 | Morris Louis           | 4
  16 | Salvador Dalí          | 3
  17 | René Magritte          | 3

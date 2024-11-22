@@ -1,6 +1,15 @@
-let gallery           = []
-let paintingsIndex    = []
-let index             = -1;
+const loadMargin = 3
+const paintingsBatch = 25
+
+let offset         = 0
+let gallery        = []
+let paintingsIndex = []
+let index          = 0;
+
+const directions = {
+    LEFT : -1,
+    RIGHT : 1,
+}
 
 const screens = {
     gallery : 'gallery',
@@ -13,7 +22,6 @@ let emptyState
 let painting
 let info
 
-
 document.addEventListener('DOMContentLoaded', async function() {
 
     emptyState = document.querySelector('#gallery .empty-state')
@@ -21,7 +29,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     info       = document.querySelector('#gallery .info')
 
     initIndex()
-    await loadNextPaintings()
+    await loadMorePaintings(directions.RIGHT)
     initSideButtons()
     initKeys()
     refreshDisplay()
@@ -32,6 +40,10 @@ function initIndex() {
     if (sessionStorage.getItem('lastIndex')) {
         index = Number(sessionStorage.getItem('lastIndex'))
     }
+    if (sessionStorage.getItem('offset')) {
+        offset = Number(sessionStorage.getItem('offset'))
+    }
+    console.log('index, gallery offset', index, offset)
 }
 
 function initKeys() {
@@ -48,27 +60,61 @@ function refreshDisplay() {
     Object.values(screens).forEach( display => {
         document.querySelector(`#${display}`).style.display = 'none'
     })
-    document.querySelector(`#${currentDisplay}`).style.display = 'block'
+    document.querySelector(`#${currentDisplay}`).style.display = currentDisplay == screens.gallery ? 'flex' : 'block'
 
 }
 
-async function loadNextPaintings() {
+async function loadMorePaintings(direction) {
 
-    let response = await fetch('/app/controllers/nextPaintings.php')
+    let number = 0
+
+    if (direction == directions.RIGHT) {
+        number = offset + gallery.length
+        if (gallery.length > paintingsBatch) {
+            offset += paintingsBatch
+        }
+    }
+    else if(direction == directions.LEFT) {
+        number = offset - paintingsBatch
+        offset -= paintingsBatch
+    }
+    if (offset < 0) {
+        offset = 0
+    }
+
+    console.log('loading more paintings: direction, offset, request number', direction, offset, number)
+    let response = await fetch(`/app/controllers/nextPaintings.php?number=${number}`)
+
     if (!response.ok) {
         throw new Error(`Response status: ${response.status}`)
     }
     let result = await response.json()
     if (result.success) {
-        gallery = gallery.concat(result.paintings)
-        paintingsIndex = result.paintingsIndex
-        if (index == -1) {
-            index++
+
+        if (direction == 1) {
+            gallery = gallery.slice(-paintingsBatch).concat(result.paintings)
         }
-        refreshPainting()
-        refreshPaintingsIndex()
+        else {
+            gallery = result.paintings.concat(gallery.slice(0,paintingsBatch))
+        }
+
+        if (paintingsIndex.length == 0) {
+            paintingsIndex = result.paintingsIndex
+            refreshPaintingsIndex()
+        }
+
+        if (index - offset <= loadMargin && offset > 0) {
+            loadMorePaintings(directions.LEFT)
+        }
+        else if (index - offset >= gallery.length - loadMargin && gallery.length + offset < paintingsIndex.length ) {
+            loadMorePaintings(directions.RIGHT)
+        }
+        else {
+            refreshPainting()
+        }
     }
 
+    sessionStorage.setItem('offset', offset)
 }
 
 function refreshPainting() {
@@ -77,7 +123,7 @@ function refreshPainting() {
     info.innerHTML = ''
 
     painting.appendChild(newElem('img', {
-        attributes: [['src', `/public/images/${gallery[index].image.name}`]],
+        attributes: [['src', `/public/images/${gallery[index - offset].image.name}`]],
         eventListeners: [['click', switchToInfo]]
     }))
     
@@ -86,7 +132,7 @@ function refreshPainting() {
             newElem('div', {
                 classes: ['image-frame'],
                 nodes: [newElem('img', {
-                    attributes: [['src', `/public/images/${gallery[index].image.name}` ]],
+                    attributes: [['src', `/public/images/${gallery[index - offset].image.name}` ]],
                     eventListeners: [['click', switchToPainting]]
                 })]
             }),
@@ -95,19 +141,19 @@ function refreshPainting() {
                 nodes: [
                     newElem('div', {
                         classes: ['author'],
-                        content: gallery[index].author
+                        content: gallery[index - offset].author
                     }),
                     newElem('div', {
                         classes: ['name'],
-                        content: gallery[index].name
+                        content: gallery[index - offset].name
                     }),
                     newElem('div', {
                         classes: ['labeled', 'year'],
-                        content: gallery[index].year
+                        content: gallery[index - offset].year
                     }),
                     newElem('div', {
                         classes: ['labeled', 'style'],
-                        content: gallery[index].style
+                        content: gallery[index - offset].style
                     }),
                 ]
             })
@@ -116,7 +162,7 @@ function refreshPainting() {
 
     info.appendChild(newElem('div', {
         classes: ['description'],
-        content: gallery[index].description.replace(/(?:\r\n|\r|\n)/g, '<br>')
+        content: gallery[index - offset].description.replace(/(?:\r\n|\r|\n)/g, '<br>')
     }))
 
     emptyState.style.display = 'none';
@@ -139,12 +185,30 @@ function initSideButtons() {
 
 function previousPainting() {
     index--
-    refreshPainting()
+    if (index < 0) {
+        index = 0
+    }
+    console.log('moving left: index, gallery length, offset,', index, gallery.length, offset)
+    if (index - offset == loadMargin && offset > 0) {
+        loadMorePaintings(directions.LEFT)
+    }
+    else {
+        refreshPainting()
+    }
 }
 
 function nextPainting() {
     index++
-    refreshPainting()
+    if (index >= paintingsIndex.length) {
+        index = paintingsIndex.length - 1
+    }
+    console.log('moving right: index, gallery length, offset', index, gallery.length, offset)
+    if (index - offset == gallery.length - loadMargin && gallery.length + offset < paintingsIndex.length ) {
+        loadMorePaintings(directions.RIGHT)
+    }
+    else {
+        refreshPainting()
+    }
 }
 
 function switchToInfo() {
