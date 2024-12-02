@@ -34,6 +34,8 @@ document.addEventListener('DOMContentLoaded', async function() {
     initKeys()
     refreshDisplay()
 
+    window.onresize = refreshPainting
+
 })
 
 function initIndex() {
@@ -43,14 +45,19 @@ function initIndex() {
     if (sessionStorage.getItem('offset')) {
         offset = Number(sessionStorage.getItem('offset'))
     }
-    console.log('index, gallery offset', index, offset)
 }
 
 function initKeys() {
-    document.querySelector('body').addEventListener('keyup', (ev) => {
+    document.querySelector('body').addEventListener('keyup', async function(ev) {
         if (ev.keyCode == 72) {
             currentDisplay = currentDisplay == screens.gallery ? screens.index : screens.gallery
             refreshDisplay()
+        }
+        else if (ev.keyCode == 82) {
+            await fetch(`/app/controllers/resetSession.php`)
+            sessionStorage.setItem('offset', 0)
+            sessionStorage.setItem('lastIndex', 0)
+            window.location.href = '/'
         }
     })
 }
@@ -82,7 +89,6 @@ async function loadMorePaintings(direction) {
         offset = 0
     }
 
-    console.log('loading more paintings: direction, offset, request number', direction, offset, number)
     let response = await fetch(`/app/controllers/nextPaintings.php?number=${number}`)
 
     if (!response.ok) {
@@ -122,7 +128,13 @@ function refreshPainting() {
     painting.innerHTML = ''
     info.innerHTML = ''
 
+    let image = gallery[index - offset].image
+
+    const imageRatio    = image.width / image.height
+    const viewportRatio = window.innerWidth / window.innerHeight
+
     painting.appendChild(newElem('img', {
+        classes: [imageRatio > viewportRatio ? 'wide' : 'high'],
         attributes: [['src', `/public/images/${gallery[index - offset].image.name}`]],
         eventListeners: [['click', switchToInfo]]
     }))
@@ -132,8 +144,8 @@ function refreshPainting() {
             newElem('div', {
                 classes: ['image-frame'],
                 nodes: [newElem('img', {
-                    attributes: [['src', `/public/images/${gallery[index - offset].image.name}` ]],
-                    eventListeners: [['click', switchToPainting]]
+                    attributes: [['src', `/public/images/${gallery[index - offset].image.name}`]],
+                    eventListeners: [['click', switchToPainting]],
                 })]
             }),
             newElem('div', {
@@ -188,7 +200,6 @@ function previousPainting() {
     if (index < 0) {
         index = 0
     }
-    console.log('moving left: index, gallery length, offset,', index, gallery.length, offset)
     if (index - offset == loadMargin && offset > 0) {
         loadMorePaintings(directions.LEFT)
     }
@@ -202,7 +213,6 @@ function nextPainting() {
     if (index >= paintingsIndex.length) {
         index = paintingsIndex.length - 1
     }
-    console.log('moving right: index, gallery length, offset', index, gallery.length, offset)
     if (index - offset == gallery.length - loadMargin && gallery.length + offset < paintingsIndex.length ) {
         loadMorePaintings(directions.RIGHT)
     }
@@ -213,7 +223,7 @@ function nextPainting() {
 
 function switchToInfo() {
     painting.style.display = 'none';
-    info.style.display  = 'block';
+    info.style.display  = 'flex';
 }
 
 function switchToPainting() {

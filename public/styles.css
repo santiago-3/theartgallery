@@ -396,7 +396,12 @@ svg {
 }
 #gallery > .painting img {
     cursor: pointer;
+}
+#gallery > .painting img.high {
     height: 100vh;
+}
+#gallery > .painting img.wide {
+    width: 100vw;
 }
 
 #gallery .side-button {
@@ -433,7 +438,6 @@ svg {
     font-size: 18px;
     background-color: #262320;
     padding: 20px;
-    overflow: scroll;
 }
 #gallery > .info > div:first-child {
     display: flex;
@@ -463,8 +467,12 @@ svg {
     font-weight: bold;
 }
 #gallery > .info .description {
+    margin-top: 10px;
     text-align: left;
-    padding: 20px 0px;
+    padding: 20px 20px 0px 0px;
+    overflow: scroll;
+    height: 100%;
+    flex-grow: 1;
 }
 #gallery > .info .description p {
     margin: 0px;
