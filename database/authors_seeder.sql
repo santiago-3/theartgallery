@@ -19,3 +19,4 @@ insert into authors (name, link) values ('Edvard Munch', 'https://es.wikipedia.o
 insert into authors (name, link) values ('Edward Hopper', 'https://es.wikipedia.org/wiki/Edward_Hopper');
 insert into authors (name, link) values ('William Holbrook Beard', 'https://en.wikipedia.org/wiki/William_Holbrook_Beard');
 insert into authors (name, link) values ('Mark Ryden', 'https://es.wikipedia.org/wiki/Mark_Ryden');
+insert into authors (name, link) values ('Caravaggio', 'https://es.wikipedia.org/wiki/Caravaggio');
