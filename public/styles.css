@@ -82,7 +82,16 @@ svg {
 }
 #list .paintings .painting .name {
     flex-grow: 1;
+    position: relative;
 }
+
+#list .paintings .painting .name .length-bar{
+    position: absolute;
+    background-color: #ddaaaa;
+    height: 8px;
+    border-radius: 8px;
+}
+
 #list button.delete {
     padding: 0px;
     width: 20px;

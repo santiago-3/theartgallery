@@ -103,7 +103,13 @@ function loadPaintingsList(paintings) {
 
         const name = document.createElement('div')
         name.classList.add('name')
-        name.innerHTML = painting.name
+        name.innerHTML = painting.name + ` (${painting.description_length})`
+
+        const lengthBar = document.createElement('div')
+        lengthBar.classList.add('length-bar')
+        lengthBar.style.width = Math.round(Math.min(1000, painting.description_length) / 10) + '%'
+
+        name.appendChild(lengthBar)
 
         const deleteButton     = document.createElement('button');
         deleteButton.classList.add('delete');

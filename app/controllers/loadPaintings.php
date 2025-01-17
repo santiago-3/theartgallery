@@ -3,7 +3,7 @@
     include_once('../globals.php');
     
     $response = [ 'success' => true ];
-    $query = 'select p.id, i.name, i.width, i.height, a.name, p.year, p.name
+    $query = 'select p.id, i.name, i.width, i.height, a.name, p.year, p.name, length(p.description)
         from paintings p
         left join images i on i.id = p.image_id
         left join authors a on a.id = p.author_id
@@ -27,6 +27,7 @@
             "author"      => $row[4],
             "year"        => $row[5],
             "name"        => $row[6],
+            "description_length" => $row[7],
         ];
 
     }
