@@ -7,7 +7,7 @@ services:
     volumes:
       - .:/var/www/html/
     ports:
-      - 8088:80
+      - 8083:80
 
   dbp:
     container_name: pg-art-gallery
